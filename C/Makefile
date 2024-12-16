@@ -10,7 +10,7 @@ SRC_P1 = Colleen.c
 SRC_P2 = Grace.c
 SRC_P3 = Sully.c
 TST_C = tmp_$(P1)
-TST_G = tmp_$(P2)
+TST_G = Grace_kid.c
 TST_S = tmp_$(P3)
 
 # Colors
@@ -69,14 +69,14 @@ re: fclean all
 # Test the project
 diff: all
 	
-	echo "$(MAGENTA)Test for Colleen$(RESET)"
+	@echo "$(MAGENTA)Test for Colleen$(RESET)"
 	@./Colleen > $(TST_C)                         
 	@-diff $(TST_C) Colleen.c
 
-	echo "$(CYAN)Test for Grace$(RESET)"
-	@./Grace > $(TST_G)                         
+	@echo "$(CYAN)Test for Grace$(RESET)"
+	@./Grace                    
 	@-diff $(TST_G) Grace.c
-	echo "$(YELLOW)Test for Sully$(RESET)"
+	@echo "$(YELLOW)Test for Sully$(RESET)"
 	@./Sully > $(TST_S)                         
 	@-diff $(TST_S) Sully.c
 
