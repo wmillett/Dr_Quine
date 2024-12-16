@@ -67,18 +67,21 @@ fclean: clean
 re: fclean all
 
 # Test the project
-diff: all
+test: all
 	
 	@echo "$(MAGENTA)Test for Colleen$(RESET)"
 	@./Colleen > $(TST_C)                         
 	@-diff $(TST_C) Colleen.c
+	@echo "If 0 then the test passes: $$?"
 
 	@echo "$(CYAN)Test for Grace$(RESET)"
 	@./Grace                    
 	@-diff $(TST_G) Grace.c
+	@echo "If 0 then the test passes: $$?"
 	@echo "$(YELLOW)Test for Sully$(RESET)"
 	@./Sully > $(TST_S)                         
 	@-diff $(TST_S) Sully.c
+	@echo "If 0 then the test passes: $$?"
 
 # Phony targets
-.PHONY: all clean fclean re diff
+.PHONY: all clean fclean re test
