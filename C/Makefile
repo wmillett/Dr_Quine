@@ -1,5 +1,5 @@
 
-# Flags and files
+# Flags, files and directories
 CC = clang
 CFLAGS = -Wall -Wextra -Werror
 P1 = Colleen
@@ -11,7 +11,8 @@ SRC_P2 = Grace.c
 SRC_P3 = Sully.c
 TST_C = tmp_$(P1)
 TST_G = Grace_kid.c
-TST_S = tmp_$(P3)
+TST_S = Sully_4.c Sull_3.c Sully_2.c Sully_1.c Sully_0.c
+OBJ_DIR = obj
 
 # Colors
 RED = \033[0;31m
@@ -31,57 +32,67 @@ OBJ_P3 = $(SRC_P3:.c=.o)
 # Default rule
 all: $(P1) $(P2) $(P3)
 
-# Compile the executable
-$(P1): $(OBJ_P1)
-	@$(CC) $(CFLAGS) -o $(P1) $(OBJ_P1)
+# Compile the executables
+$(P1): $(OBJ_DIR)/$(OBJ_P1)
+	@$(CC) $(CFLAGS) -o $(P1) $(OBJ_DIR)/$(OBJ_P1)
 
-$(P2): $(OBJ_P2)
-	@$(CC) $(CFLAGS) -o $(P2) $(OBJ_P2)
+$(P2): $(OBJ_DIR)/$(OBJ_P2)
+	@$(CC) $(CFLAGS) -o $(P2) $(OBJ_DIR)/$(OBJ_P2)
 
-$(P3): $(OBJ_P3)
-	@$(CC) $(CFLAGS) -o $(P3) $(OBJ_P3)
+$(P3): $(OBJ_DIR)/$(OBJ_P3)
+	@$(CC) $(CFLAGS) -o $(P3) $(OBJ_DIR)/$(OBJ_P3)
 
 # Compile source to object file
-%.o: %.c
+$(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
+# Clean files from Sully
+clean_sully:
+	@rm -f Sully_[0-9]*.c Sully_[0-9]*
+
 # Clean test files
-tclean:
+tclean: clean_sully
 	@rm -f $(TST_C)
 	@rm -f $(TST_G)
-	@rm -f $(TST_S)
-
 
 # Clean object and test files
 clean:	tclean
-	@rm -f $(OBJ_P1)
-	@rm -f $(OBJ_P2)
-	@rm -f $(OBJ_P3)
-
+	@rm -rf $(OBJ_DIR)
 
 # Full clean (remove executable and object files)
 fclean: clean
 	@rm -f $(PROGS)
 
+# Create object directory
+$(OBJ_DIR):
+	@mkdir -p $(OBJ_DIR)
+
 # Rebuild the project
 re: fclean all
 
-# Test the project
-test: all
-	
+test_colleen: $(P1)
 	@echo "$(MAGENTA)Test for Colleen$(RESET)"
 	@./Colleen > $(TST_C)                         
 	@-diff $(TST_C) Colleen.c
 	@echo "If 0 then the test passes: $$?"
 
+test_grace: $(P2)
 	@echo "$(CYAN)Test for Grace$(RESET)"
 	@./Grace                    
 	@-diff $(TST_G) Grace.c
 	@echo "If 0 then the test passes: $$?"
+
+test_sully: $(P3)
 	@echo "$(YELLOW)Test for Sully$(RESET)"
-	@./Sully > $(TST_S)                         
-	@-diff $(TST_S) Sully.c
-	@echo "If 0 then the test passes: $$?"
+	@./Sully
+	@echo "$(GREEN)Here are all the Sully executables and their sources$(RESET)"
+	@ls -al | grep Sully	
+	@echo "$(YELLOW)Tests should now indicate the only difference between the source codes is the int i$(RESET)"
+	@-diff Sully.c Sully_0.c
+
+# Test all the programs in the project
+test_all: test_colleen test_grace test_sully
+
 
 # Phony targets
-.PHONY: all clean fclean re test
+.PHONY: all clean fclean tclean clean_sully re test_all test_colleen test_grace test_sully
