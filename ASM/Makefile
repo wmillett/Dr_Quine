@@ -2,7 +2,7 @@
 AS = nasm                # Assembler
 ASFLAGS = -f elf64       # NASM output format for 64-bit Linux
 LD = ld                  # Linker
-LDFLAGS = -lc -dynamic-linker=/lib64/ld-linux-x86-64.so.2
+LDFLAGS = -e main -lc -dynamic-linker=/lib64/ld-linux-x86-64.so.2  # Set entry point to main
 P1 = Colleen
 P2 = Grace
 P3 = Sully
@@ -26,22 +26,22 @@ CYAN = \033[0;36m
 RESET = \033[0m
 
 # Object files
-OBJ_P1 = $(SRC_P1:.s=.o)
-OBJ_P2 = $(SRC_P2:.s=.o)
-OBJ_P3 = $(SRC_P3:.s=.o)
+OBJ_P1 = $(OBJ_DIR)/$(SRC_P1:.s=.o)
+OBJ_P2 = $(OBJ_DIR)/$(SRC_P2:.s=.o)
+OBJ_P3 = $(OBJ_DIR)/$(SRC_P3:.s=.o)
 
 # Default rule
 all: $(P1) $(P2) $(P3)
 
 # Compile the executables
-$(P1): $(OBJ_DIR)/$(OBJ_P1)
-	@$(LD) $(LDFLAGS) -o $(P1) $(OBJ_DIR)/$(OBJ_P1)
+$(P1): $(OBJ_P1)
+	@$(LD) $(LDFLAGS) -o $(P1) $(OBJ_P1)
 
-$(P2): $(OBJ_DIR)/$(OBJ_P2)
-	@$(LD) $(LDFLAGS) -o $(P2) $(OBJ_DIR)/$(OBJ_P2)
+$(P2): $(OBJ_P2)
+	@$(LD) $(LDFLAGS) -o $(P2) $(OBJ_P2)
 
-$(P3): $(OBJ_DIR)/$(OBJ_P3)
-	@$(LD) $(LDFLAGS) -o $(P3) $(OBJ_DIR)/$(OBJ_P3)
+$(P3): $(OBJ_P3)
+	@$(LD) $(LDFLAGS) -o $(P3) $(OBJ_P3)
 
 # Compile source to object file
 $(OBJ_DIR)/%.o: %.s | $(OBJ_DIR)
