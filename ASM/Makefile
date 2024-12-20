@@ -1,8 +1,11 @@
 # Flags, files, and directories
 AS = nasm                # Assembler
-ASFLAGS = -f elf64       # NASM output format for 64-bit Linux
-LD = ld                  # Linker
-LDFLAGS = -e main -lc -dynamic-linker=/lib64/ld-linux-x86-64.so.2  # Set entry point to main
+ASFLAGS_LINUX = -f elf64       # NASM output format for 64-bit Linux
+ASFLAGS_MAC = -f macho64      # NASM output format for 64-bit macOS
+LD_LINUX = ld            # Linux linker
+LD_MAC = clang           # macOS linker (use clang for simplicity)
+LDFLAGS_LINUX = -e main -lc -dynamic-linker=/lib64/ld-linux-x86-64.so.2  # Linux linker flags
+LDFLAGS_MAC = -e _main -lc -Wl,-no_pie  # macOS linker flags
 P1 = Colleen
 P2 = Grace
 P3 = Sully
@@ -24,6 +27,20 @@ ORANGE = \033[0;91m
 MAGENTA = \033[0;35m
 CYAN = \033[0;36m
 RESET = \033[0m
+
+# Detect OS
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Linux)
+    ASFLAGS = $(ASFLAGS_LINUX)
+    LD = $(LD_LINUX)
+    LDFLAGS = $(LDFLAGS_LINUX)
+else ifeq ($(UNAME_S),Darwin)
+    ASFLAGS = $(ASFLAGS_MAC)
+    LD = $(LD_MAC)
+    LDFLAGS = $(LDFLAGS_MAC)
+else
+    $(error Unsupported OS: $(UNAME_S))
+endif
 
 # Object files
 OBJ_P1 = $(OBJ_DIR)/$(SRC_P1:.s=.o)

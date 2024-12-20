@@ -1,0 +1,16 @@
+section .data
+    format db "¸ùï¿÷",10,34,format
+section .text
+    extern printf
+    global main
+main:
+    mov rdi, format       ; Load the format string into rdi
+    mov rsi, 10           ; rsi = newline character
+    mov rdx, 34           ; rdx = double quote character
+    mov rcx, format       ; rcx = the format string itself
+    xor rax, rax          ; Clear rax for printf
+    call printf           ; Call printf
+    xor rax, rax          ; Return 0
+    ret
+
+"
