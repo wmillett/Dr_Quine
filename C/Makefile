@@ -74,13 +74,13 @@ test_colleen: $(P1)
 	@echo "$(MAGENTA)Test for Colleen$(RESET)"
 	@./Colleen > $(TST_C)                         
 	@-diff $(TST_C) Colleen.c
-	@echo "If 0 then the test passes: $$?"
+	@echo "If no make errors ignored then it passes"
 
 test_grace: $(P2)
 	@echo "$(CYAN)Test for Grace$(RESET)"
 	@./Grace                    
 	@-diff $(TST_G) Grace.c
-	@echo "If 0 then the test passes: $$?"
+	@echo "If no make errors ignored then it passes"
 
 test_sully: $(P3)
 	@echo "$(YELLOW)Test for Sully$(RESET)"
