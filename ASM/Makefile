@@ -96,7 +96,7 @@ test_colleen: $(P1)
 
 test_grace: $(P2)
 	@echo "$(CYAN)Test for Grace$(RESET)"
-	@./Grace                    
+	@-./Grace                    
 	@-diff $(TST_G) Grace.s
 	@echo "If no make errors ignored then it passes"
 
