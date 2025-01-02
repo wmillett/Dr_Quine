@@ -4,7 +4,7 @@ ASFLAGS_LINUX = -f elf64       # NASM output format for 64-bit Linux
 ASFLAGS_MAC = -f macho64      # NASM output format for 64-bit macOS
 LD_LINUX = ld            # Linux linker
 LD_MAC = clang           # macOS linker (use clang for simplicity)
-LDFLAGS_LINUX = -e main -lc -dynamic-linker=/lib64/ld-linux-x86-64.so.2  # Linux linker flags
+LDFLAGS_LINUX = -e _start -lc -dynamic-linker /lib64/ld-linux-x86-64.so.2
 LDFLAGS_MAC = -e _main -lc -Wl,-no_pie  # macOS linker flags
 P1 = Colleen
 P2 = Grace
