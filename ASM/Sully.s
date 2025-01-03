@@ -69,7 +69,6 @@ ft:
     call system
 
 exit:
-    ; Exit program
-    mov rax, 60 ; Exit syscall
+    mov rax, 60
     xor rdi, rdi
     syscall
