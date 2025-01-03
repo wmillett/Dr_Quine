@@ -64,6 +64,10 @@ $(P3): $(OBJ_P3)
 $(OBJ_DIR)/%.o: %.s | $(OBJ_DIR)
 	@$(AS) $(ASFLAGS) $< -o $@
 
+#debug:
+#	nasm -f elf64 Colleen.s -g -o Colleen.o
+#	gcc -no-pie Colleen.o -o Colleen
+ 
 # Clean files from Sully
 clean_sully:
 	@rm -f Sully_[0-9]*.s Sully_[0-9]*
@@ -80,6 +84,7 @@ clean:	tclean
 # Full clean (remove executables and object files)
 fclean: clean
 	@rm -f $(PROGS)
+	@rm -f *.o
 
 # Create object directory
 $(OBJ_DIR):
