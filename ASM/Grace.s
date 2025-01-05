@@ -8,13 +8,16 @@ section .text
     extern dprintf
     extern open
     extern close
+
 %define MS main:
 %macro FT 0
     MS
     push rbp
     mov rbp, rsp
+    and rsp, -16
     mov rsi, 0x241
     lea rdi, [rel fn]
+    mov rax, 85
     call open
     cmp rax, 0xfffffff
     jge exit
@@ -27,7 +30,9 @@ section .text
     call dprintf
     exit:
     call close
+    mov rax, 60
+    xor rdi, rdi
     leave
-    ret
+    syscall
 %endmacro
 FT
